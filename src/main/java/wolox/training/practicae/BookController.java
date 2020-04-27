@@ -14,9 +14,6 @@ import wolox.training.models.Book;
 @RestController
 @RequestMapping (value="listar")
 public class BookController {
-	
-//	@Autowired
-//	private IBookService bookService;
 
 	@Autowired
 	private IBookDao bookDao;
