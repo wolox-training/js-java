@@ -1,0 +1,35 @@
+[33mcommit 730598cd6f82aee723d84e39a5ebc7362e199b48[m[33m ([m[1;36mHEAD -> [m[1;32mfeature-crear-repositorio-de-books[m[33m, [m[1;32mfeature-modelo-de-book[m[33m)[m
+Author: Stegman <A128638@bf.arg.igrupobbva>
+Date:   Mon Apr 27 10:09:07 2020 -0300
+
+    commit
+
+[33mcommit 14e93019790b3aa4416d1f90fb7e8b3bc334896d[m[33m ([m[1;31morigin/feature-modelo-de-book[m[33m)[m
+Author: Stegman <A128638@bf.arg.igrupobbva>
+Date:   Mon Apr 27 10:01:46 2020 -0300
+
+    Corresponde a Arreglos del PR de la  Card Crear Modelo de Book
+
+[33mcommit d61b79024666435f62d483ed323641a2cb76681e[m
+Author: Stegman <A128638@bf.arg.igrupobbva>
+Date:   Fri Apr 24 09:57:22 2020 -0300
+
+    Corresponde a la Card Crear Modelo de Book
+
+[33mcommit ce63780a64071ff79af4dbf611826ab4d04b0a8f[m[33m ([m[1;31morigin/feature-primer-controller[m[33m, [m[1;32mfeature-primer-controller[m[33m)[m
+Author: Stegman <A128638@bf.arg.igrupobbva>
+Date:   Thu Apr 23 16:04:19 2020 -0300
+
+    resolucion card -Crear un Controller y una vista de bienvenida
+
+[33mcommit c148167b63d5b412a60ece55bde56b470f93928e[m[33m ([m[1;32mdevelopment[m[33m)[m
+Author: Stegman <A128638@bf.arg.igrupobbva>
+Date:   Thu Apr 23 15:01:49 2020 -0300
+
+    commit inical del proyecto
+
+[33mcommit 5a27fc8f9a37a0f84a5f46525cf5cb7273d4e8d1[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: leandrocostawolox <50246961+leandrocostawolox@users.noreply.github.com>
+Date:   Wed Apr 15 12:09:33 2020 -0300
+
+    Initial commit

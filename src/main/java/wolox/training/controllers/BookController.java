@@ -1,0 +1,63 @@
+package wolox.training.controllers;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import wolox.training.exceptions.BookIdMismatchException;
+import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.models.Book;
+import wolox.training.repositories.BookRepository;
+
+@RestController
+@RequestMapping("/books")
+public class BookController {
+
+	@Autowired
+	private BookRepository bookRepository;
+	
+	@GetMapping("/todos")
+	public Iterable<Book> findAll() {
+		System.out.println("En BookController -> findAll");
+		return bookRepository.findAll(); 
+	}
+	
+	@GetMapping("/buscarXid/{id}")	
+	public Book findOne(@PathVariable(required = true) Long id) {
+		return bookRepository.findById(id)
+				.orElseThrow(() -> new BookNotFoundException("No se encontro libro "));
+	}
+	
+	@GetMapping("/buscarXauthor/{author}")	
+	public Book findByAuthor(@PathVariable(required = true)String author) {
+		return bookRepository.findFirstByAuthorOrderByYear(author)
+					.orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
+	}
+
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Book createBook(@RequestBody Book book) {
+		return bookRepository.save(book);
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteBook(@PathVariable(required = true) Long id) {
+		bookRepository.findById(id)
+			.orElseThrow(() -> new BookNotFoundException("No existe el libro de id ingresado"));
+		bookRepository.deleteById(id);
+	}
+	 
+	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
+		System.out.println("entro a updateBook");
+		if (!id.equals(book.getId())) {
+			throw new BookIdMismatchException("Id invalido");
+		}
+		bookRepository.findById(id)
+			.orElseThrow(() -> new BookNotFoundException("No existe el libro de id ingresado"));
+		return bookRepository.save(book);
+	}	
+	
+}
