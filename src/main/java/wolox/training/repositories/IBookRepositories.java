@@ -1,13 +1,13 @@
-package wolox.training.practicae;
+package wolox.training.repositories;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
 
 import wolox.training.models.Book;
 
-public interface IBookDao extends CrudRepository<Book, Long> {
-	public List<Book> findByAuthor(String author);
+public interface IBookRepositories extends CrudRepository<Book, Long> {
+	public Optional<Book> findFirstByAuthor(String author);
 
 }

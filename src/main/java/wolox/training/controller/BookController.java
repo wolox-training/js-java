@@ -1,6 +1,7 @@
-package wolox.training.practicae;
+package wolox.training.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -10,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import wolox.training.models.Book;
+import wolox.training.repositories.IBookRepositories;
 
 @RestController
 @RequestMapping (value="listar")
 public class BookController {
 
 	@Autowired
-	private IBookDao bookDao;
+	private IBookRepositories bookDao;
 	
 	//     http://localhost:8086/listar/todos
 	
@@ -29,8 +31,8 @@ public class BookController {
 	//    http://localhost:8086/listar/Xautor?author=pepi
 	
 	@GetMapping(value="Xautor")
-	public List<Book> getBooks2(@RequestParam(name="author", required=false, defaultValue="xxxxx") String author, Model model) {
-		return (List<Book>) bookDao.findByAuthor(author);
+	public Optional<Book> getBooks2(@RequestParam(name="author", required=false, defaultValue="xxxxx") String author, Model model) {
+		return bookDao.findFirstByAuthor(author);
 	}
 	
 }
