@@ -51,7 +51,6 @@ public class BookController {
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
-		System.out.println("entro a updateBook");
 		if (!id.equals(book.getId())) {
 			throw new BookIdMismatchException("Id invalido");
 		}
