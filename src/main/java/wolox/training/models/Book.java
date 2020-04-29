@@ -1,6 +1,9 @@
 package wolox.training.models;
 
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.List;
@@ -16,6 +19,7 @@ public class Book {
     private long id;
 
     @ManyToMany(mappedBy = "books")
+    @JsonIgnore
     private List<User> User;	
 	
 	private String genre; 
@@ -50,7 +54,6 @@ public class Book {
 	public Book(List<User> user, String genre, @NotNull String author, @NotNull String image, @NotNull String title,
 	        @NotNull String subtitle, @NotNull String publisher, @NotNull String year, @NotNull int pages,
 	        @NotNull String isbn) {
-		super();
 		User = user;
 		this.genre = genre;
 		this.author = author;
@@ -65,10 +68,6 @@ public class Book {
 
 	public long getId() {
 		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public List<User> getUser() {

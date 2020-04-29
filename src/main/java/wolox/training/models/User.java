@@ -38,7 +38,8 @@ public class User {
 	private Date birthDate;
 
 	@ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
-	@JoinTable(name = "user_books", joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "bookId", referencedColumnName = "id"))
+	@JoinTable(name = "user_books", joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"), 
+	                         inverseJoinColumns = @JoinColumn(name = "bookId", referencedColumnName = "id"))
 	private List<Book> books = new ArrayList<Book>();
 
 	public User() {
@@ -66,7 +67,6 @@ public class User {
 	}
 	
 	public User(@NotNull String userName, @NotNull String name, @NotNull Date birthDate, List<Book> books) {
-		super();
 		this.userName = userName;
 		this.name = name;
 		this.birthDate = birthDate;
@@ -75,10 +75,6 @@ public class User {
 
 	public long getId() {
 		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getUserName() {
@@ -106,7 +102,8 @@ public class User {
 	}
 
 	public List<Book> getBooks() {
-		return books;
+		//return books;
+		return (List<Book>) Collections.unmodifiableList(books);
 	}
 
 	public void setBooks(List<Book> books) {
