@@ -43,7 +43,6 @@ public class User {
 	private List<Book> books = new ArrayList<Book>();
 
 	public User() {
-		super();
 	}
 
 	public List<Book> agregarLibro(Book Book) throws BookAlreadyOwnedException {
