@@ -1,4 +1,4 @@
-package wolox.training.controllers;
+package wolox.training.exceptions;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import wolox.training.exceptions.BookIdMismatchException;
-import wolox.training.exceptions.BookNotFoundException;
-
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -23,7 +20,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BookNotFoundException.class)
     protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
     	String mensaje = ex.getMessage();
-    	if ("".equals(mensaje)) {mensaje = "Book not found";}
+    	if ("".equals(mensaje)) {
+    		mensaje = "Book not found";
+    	}
     	return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 

@@ -10,28 +10,28 @@ import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/books")
 public class BookController {
 
 	@Autowired
 	private BookRepository bookRepository;
 	
-	@GetMapping("/todos")
+	@GetMapping
 	public Iterable<Book> findAll() {
-		System.out.println("En BookController -> findAll");
 		return bookRepository.findAll(); 
 	}
 	
-	@GetMapping("/buscarXid/{id}")	
+	@GetMapping("/{id}")	
 	public Book findOne(@PathVariable(required = true) Long id) {
 		return bookRepository.findById(id)
-				.orElseThrow(() -> new BookNotFoundException("No se encontro libro "));
+		      .orElseThrow(() -> new BookNotFoundException("No se encontro el libro "));
 	}
 	
-	@GetMapping("/buscarXauthor/{author}")	
-	public Book findByAuthor(@PathVariable(required = true)String author) {
+	@GetMapping
+	@RequestMapping(params = "author")
+	public Book findByAuthor(@RequestParam(required = true) String author) {
 		return bookRepository.findFirstByAuthorOrderByYear(author)
-					.orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
+              .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
 	}
 
 	@PostMapping
