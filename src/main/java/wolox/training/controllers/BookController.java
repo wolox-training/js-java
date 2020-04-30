@@ -1,9 +1,9 @@
 package wolox.training.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
@@ -15,23 +15,22 @@ public class BookController {
 
 	@Autowired
 	private BookRepository bookRepository;
-	
+
 	@GetMapping
 	public Iterable<Book> findAll() {
-		return bookRepository.findAll(); 
+		return bookRepository.findAll();
 	}
-	
-	@GetMapping("/{id}")	
+
+	@GetMapping("/{id}")
 	public Book findOne(@PathVariable(required = true) Long id) {
-		return bookRepository.findById(id)
-		      .orElseThrow(() -> new BookNotFoundException("No se encontro el libro "));
+		return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No se encontro el libro "));
 	}
-	
+
 	@GetMapping
 	@RequestMapping(params = "author")
 	public Book findByAuthor(@RequestParam(required = true) String author) {
 		return bookRepository.findFirstByAuthorOrderByYear(author)
-              .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
+		        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
 	}
 
 	@PostMapping
@@ -39,24 +38,22 @@ public class BookController {
 	public Book createBook(@RequestBody Book book) {
 		return bookRepository.save(book);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteBook(@PathVariable(required = true) Long id) {
-		bookRepository.findById(id)
-			.orElseThrow(() -> new BookNotFoundException("No existe el libro de id ingresado"));
+		bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No existe el libro de id ingresado"));
 		bookRepository.deleteById(id);
 	}
-	 
+
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
 		if (!id.equals(book.getId())) {
 			throw new BookIdMismatchException("Id invalido");
 		}
-		bookRepository.findById(id)
-			.orElseThrow(() -> new BookNotFoundException("No existe el libro de id ingresado"));
+		bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No existe el libro de id ingresado"));
 		return bookRepository.save(book);
-	}	
-	
+	}
+
 }
