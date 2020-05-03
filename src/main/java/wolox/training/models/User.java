@@ -36,7 +36,7 @@ public class User {
 	public User() {
 	}
 
-	public List<Book> agregarLibro(Book Book) throws BookAlreadyOwnedException {
+	public List<Book> addBook(Book Book) throws BookAlreadyOwnedException {
 		if (books.contains(Book)) {
 			throw new BookAlreadyOwnedException("Ingreso un libro que el usuario ya tenia asociado");
 		} else {
@@ -47,7 +47,7 @@ public class User {
 
 	// borrar por libro entero desde la clase, pero el controller que busque por id
 
-	public void borrarLibro(Book Book) throws BookNotFoundException {
+	public void deleteBook(Book Book) throws BookNotFoundException {
 
 		if (!books.contains(Book)) {
 			throw new BookNotFoundException("El libro ingresado no existe enla lista del usuario");

@@ -69,7 +69,7 @@ public class UserController {
 		        .orElseThrow(() -> new UserNotFoundException("No existe el Usuario del id ingresado"));
 		Book book = bookRepository.findById(bookid)
 		        .orElseThrow(() -> new BookNotFoundException("No existe el Libro del id ingresado"));
-		user.agregarLibro(book);
+		user.addBook(book);
 		return userRepository.save(user);
 	}
 
@@ -80,7 +80,7 @@ public class UserController {
 		        .orElseThrow(() -> new UserNotFoundException("No existe el Usuario del id ingresado"));
 		Book book = bookRepository.findById(bookid)
 		        .orElseThrow(() -> new BookNotFoundException("No existe el Libro del id ingresado"));
-		user.borrarLibro(book);
+		user.deleteBook(book);
 		return userRepository.save(user);
 	}
 
