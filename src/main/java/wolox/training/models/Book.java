@@ -13,48 +13,48 @@ import javax.persistence.GenerationType;
 
 @Entity
 public class Book {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-    @ManyToMany(mappedBy = "books")
-    @JsonIgnore
-    private List<User> User;	
-	
-	private String genre; 
+	@JsonIgnore
+	@ManyToMany(mappedBy = "books")
+	private List<User> users;
+
+	private String genre;
 
 	@NotNull
-    private String author;
-	
+	private String author;
+
 	@NotNull
-    private String image;
-	
+	private String image;
+
 	@NotNull
-    private String title;
-	
+	private String title;
+
 	@NotNull
 	private String subtitle;
 
 	@NotNull
 	private String publisher;
-	
+
 	@NotNull
 	private String year;
-	
+
 	@NotNull
-	private int pages = 0;
-	
+	private int pages;
+
 	@NotNull
 	private String isbn;
-	
+
 	public Book() {
 	}
 
-	public Book(List<User> user, String genre, @NotNull String author, @NotNull String image, @NotNull String title,
+	public Book(List<User> users, String genre, @NotNull String author, @NotNull String image, @NotNull String title,
 	        @NotNull String subtitle, @NotNull String publisher, @NotNull String year, @NotNull int pages,
 	        @NotNull String isbn) {
-		User = user;
+		this.users = users;
 		this.genre = genre;
 		this.author = author;
 		this.image = image;
@@ -70,12 +70,12 @@ public class Book {
 		return id;
 	}
 
-	public List<User> getUser() {
-		return User;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setUser(List<User> user) {
-		User = user;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	public String getGenre() {
@@ -150,5 +150,4 @@ public class Book {
 		this.isbn = isbn;
 	}
 
-	
 }

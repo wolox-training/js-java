@@ -1,15 +1,9 @@
 package wolox.training.models;
 
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
-
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,7 +18,7 @@ import javax.persistence.GenerationType;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@NotNull
@@ -34,37 +28,34 @@ public class User {
 	private String name;
 
 	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
 
 	@ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
-	@JoinTable(name = "user_books", joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"), 
-	                         inverseJoinColumns = @JoinColumn(name = "bookId", referencedColumnName = "id"))
 	private List<Book> books = new ArrayList<Book>();
 
 	public User() {
 	}
 
-	public List<Book> agregarLibro(Book Book) throws BookAlreadyOwnedException {
+	public List<Book> addBook(Book Book) throws BookAlreadyOwnedException {
 		if (books.contains(Book)) {
 			throw new BookAlreadyOwnedException("Ingreso un libro que el usuario ya tenia asociado");
-		}else {
+		} else {
 			this.books.add(Book);
 		}
-		return (List<Book>) Collections.unmodifiableList(books); 
+		return (List<Book>) Collections.unmodifiableList(books);
 	}
 
-	//borrar por libro entero desde la clase, pero el controller que busque por id
-	
-	public void borrarLibro(Book Book) throws BookNotFoundException{
-		
-		if(!books.contains(Book)) {
+	// borrar por libro entero desde la clase, pero el controller que busque por id
+
+	public void deleteBook(Book Book) throws BookNotFoundException {
+
+		if (!books.contains(Book)) {
 			throw new BookNotFoundException("El libro ingresado no existe enla lista del usuario");
-		}else {
+		} else {
 			this.books.remove(Book);
 		}
 	}
-	
+
 	public User(@NotNull String userName, @NotNull String name, @NotNull Date birthDate, List<Book> books) {
 		this.userName = userName;
 		this.name = name;
@@ -101,7 +92,7 @@ public class User {
 	}
 
 	public List<Book> getBooks() {
-		//return books;
+		// return books;
 		return (List<Book>) Collections.unmodifiableList(books);
 	}
 

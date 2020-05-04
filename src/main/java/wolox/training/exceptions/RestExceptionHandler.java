@@ -18,10 +18,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BookNotFoundException.class)
-    protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
+    protected ResponseEntity<Object> handleNotFoundBook(Exception ex, WebRequest request) {
     	String mensaje = ex.getMessage();
     	if ("".equals(mensaje)) {
     		mensaje = "Book not found";
+    	}
+    	return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
+    	String mensaje = ex.getMessage();
+    	if ("".equals(mensaje)) {
+    		mensaje = "User not found";
     	}
     	return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
