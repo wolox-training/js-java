@@ -1,15 +1,16 @@
 package wolox.training.models;
 
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Book {
@@ -20,7 +21,7 @@ public class Book {
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "books")
-	private List<User> users;
+	private List<User> users = new ArrayList<User>();
 
 	private String genre;
 

@@ -22,7 +22,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{id}")
-	public Book findOne(@PathVariable(required = true) Long id) {
+	public Book findId(@PathVariable(required = true) Long id) {
 		return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No se encontro el libro "));
 	}
 
