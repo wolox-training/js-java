@@ -20,17 +20,6 @@ public class UserRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
 
-//	@BeforeAll
-//	public void init() {
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//
-//		User user1 = new User("0001", "pepe", LocalDate.parse("1920-10-10", formatter));
-//		userRepository.save(user1);
-//		User user2 = new User("0002", "popo", LocalDate.parse("1918-01-04", formatter));
-//		userRepository.save(user2);
-//
-//	}
-
 	@Test
 	public void givenUsers_WhenSearchAllThenFind2Users() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

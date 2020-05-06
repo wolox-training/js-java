@@ -9,24 +9,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
-//@RunWith(SpringRunner.class)
 @DataJpaTest
 public class BookRepositoryTest {
 
 	@Autowired
 	private BookRepository bookRepository;
-
-//	@BeforeAll
-//	public static void init() {
-//		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
-//		bookRepository.save(book1);
-//		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
-//		bookRepository.save(book2);
-//		Book book3 = new Book("pepa3", "pepa3", "Image3", "momo3", "", "", "2023", 363, "78945678945963");
-//		bookRepository.save(book3);
-//		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "", "", "2024", 364, "78945678945964");
-//		bookRepository.save(book4);
-//	}
 
 	@Test
 	public void givenBooks_WhenGetAllBooks_ThenFind4Books() {
