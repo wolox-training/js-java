@@ -52,10 +52,8 @@ public class Book {
 	public Book() {
 	}
 
-	public Book(List<User> users, String genre, @NotNull String author, @NotNull String image, @NotNull String title,
-	        @NotNull String subtitle, @NotNull String publisher, @NotNull String year, @NotNull int pages,
-	        @NotNull String isbn) {
-		this.users = users;
+	public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year,
+	        int pages, String isbn) {
 		this.genre = genre;
 		this.author = author;
 		this.image = image;

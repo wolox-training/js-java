@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Preconditions;
 
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
@@ -31,7 +30,7 @@ public class User {
 	private String name;
 
 	@NotNull
-	private String birthDate;
+	private LocalDate birthDate;
 
 	@ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
 	private List<Book> books = new ArrayList<Book>();
@@ -57,11 +56,10 @@ public class User {
 		}
 	}
 
-	public User(@NotNull String userName, @NotNull String name, @NotNull String birthDate, List<Book> books) {
+	public User(String userName, String name, LocalDate birthDate) {
 		this.userName = userName;
 		this.name = name;
 		this.birthDate = birthDate;
-		this.books = books;
 	}
 
 	public long getId() {
@@ -74,7 +72,7 @@ public class User {
 
 	public void setUserName(String userName) {
 
-		this.userName = Preconditions.checkNotNull(userName, "userName no puede ser Null");
+		this.userName = userName;
 	}
 
 	public String getName() {
@@ -85,11 +83,11 @@ public class User {
 		this.name = name;
 	}
 
-	public String getBirthDay() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDay(@NotNull String birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

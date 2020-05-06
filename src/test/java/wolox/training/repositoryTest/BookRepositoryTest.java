@@ -2,44 +2,75 @@ package wolox.training.repositoryTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @DataJpaTest
 public class BookRepositoryTest {
 
 	@Autowired
 	private BookRepository bookRepository;
-	@Autowired
-	private TestEntityManager entityManager;
+
+//	@BeforeAll
+//	public static void init() {
+//		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
+//		bookRepository.save(book1);
+//		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
+//		bookRepository.save(book2);
+//		Book book3 = new Book("pepa3", "pepa3", "Image3", "momo3", "", "", "2023", 363, "78945678945963");
+//		bookRepository.save(book3);
+//		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "", "", "2024", 364, "78945678945964");
+//		bookRepository.save(book4);
+//	}
 
 	@Test
-	public void whenFindFirstByAuthorOrderByYear_thenReturnBook() {
-		Book book = new Book();
-		book.setAuthor("pepe");
-		book.setGenre("accion");
-		book.setImage("pepe");
-		book.setIsbn("123456");
-		book.setPages(123);
-		book.setPublisher("JOJO");
-		book.setSubtitle("ASDAS");
-		book.setTitle("coco");
-		book.setYear("2020");
+	public void givenBooks_WhenGetAllBooks_ThenFind4Books() {
+		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
+		bookRepository.save(book1);
+		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
+		bookRepository.save(book2);
+		Book book3 = new Book("pepa3", "pepa3", "Image3", "momo3", "", "", "2023", 363, "78945678945963");
+		bookRepository.save(book3);
+		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "", "", "2024", 364, "78945678945964");
+		bookRepository.save(book4);
 
-		entityManager.persist(book);
-		entityManager.flush();
-//		bookRepository.save(book);
+		Iterable<Book> books = bookRepository.findAll();
 
-		Book found = bookRepository.findFirstByAuthorOrderByYear(book.getAuthor()).orElse(new Book());
-
-		assertThat("pepe".equals(found.getAuthor())).isTrue();
+		assertThat(books).hasSize(4);
 	}
+
+	@Test
+	public void givenBooks_WhenSearchByAuthorForPepa2Then_FindBookOfIsbn78945678945962() {
+		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
+		bookRepository.save(book1);
+		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
+		bookRepository.save(book2);
+		Book book3 = new Book("pepa3", "pepa3", "Image3", "momo3", "", "", "2023", 363, "78945678945963");
+		bookRepository.save(book3);
+		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "", "", "2024", 364, "78945678945964");
+		bookRepository.save(book4);
+
+		Book foundedBook = bookRepository.findFirstByAuthorOrderByYearDesc("pepa2").orElse(new Book());
+		assertThat("78945678945962".equals(foundedBook.getIsbn()));
+	}
+
+	@Test
+	public void givenBooks_WhenSearchByAuthorForPiruloThenNotFindBooks() {
+		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
+		bookRepository.save(book1);
+		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
+		bookRepository.save(book2);
+		Book book3 = new Book("pepa3", "pepa3", "Image3", "momo3", "", "", "2023", 363, "78945678945963");
+		bookRepository.save(book3);
+		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "", "", "2024", 364, "78945678945964");
+		bookRepository.save(book4);
+
+		assertThat(!bookRepository.findFirstByAuthorOrderByYearDesc("pirulo").isPresent());
+	}
+
 }
