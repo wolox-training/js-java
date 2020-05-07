@@ -165,6 +165,7 @@ class UserControllerTest {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		User user1 = new User("0001", "pepe1", LocalDate.parse("1920-10-10", formatter));
+
 		Mvc.perform(put("/api/users/33").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
 		        .content(new ObjectMapper().writeValueAsString(user1))).andDo(print())
 		        .andExpect(status().isBadRequest());
@@ -173,9 +174,11 @@ class UserControllerTest {
 	@Test
 	@Order(9)
 	public void givenUsers_WhenPutUser_ThenReturnHttpStatusBAD_REQUEST2() throws Exception {
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		User user1 = new User("0001", "pepe1", LocalDate.parse("1920-10-10", formatter));
+
 		given(userRepository.findById(any())).willReturn(Optional.empty());
 		Mvc.perform(put("/api/users/0").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
 		        .content(new ObjectMapper().writeValueAsString(user1).toString())).andDo(print())

@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Preconditions;
 
 @Entity
 public class Book {
@@ -82,6 +83,7 @@ public class Book {
 	}
 
 	public void setGenre(String genre) {
+		Preconditions.checkArgument(genre != null && !genre.isEmpty(), "genre no puede estar vacio");
 		this.genre = genre;
 	}
 
@@ -90,6 +92,9 @@ public class Book {
 	}
 
 	public void setAuthor(String author) {
+
+		Preconditions.checkArgument(author != null && !author.isEmpty(), "author no puede estar vacio");
+
 		this.author = author;
 	}
 
@@ -98,6 +103,7 @@ public class Book {
 	}
 
 	public void setImage(String image) {
+		Preconditions.checkArgument(image != null && !image.isEmpty(), "image no puede estar vacio");
 		this.image = image;
 	}
 
@@ -106,6 +112,7 @@ public class Book {
 	}
 
 	public void setTitle(String title) {
+		Preconditions.checkArgument(title != null && !title.isEmpty(), "title no puede estar vacio");
 		this.title = title;
 	}
 
@@ -114,6 +121,7 @@ public class Book {
 	}
 
 	public void setSubtitle(String subtitle) {
+		Preconditions.checkArgument(subtitle != null && !subtitle.isEmpty(), "subtitle no puede estar vacio");
 		this.subtitle = subtitle;
 	}
 
@@ -122,6 +130,7 @@ public class Book {
 	}
 
 	public void setPublisher(String publisher) {
+		Preconditions.checkArgument(publisher != null && !publisher.isEmpty(), "publisher no puede estar vacio");
 		this.publisher = publisher;
 	}
 
