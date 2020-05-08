@@ -13,9 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import wolox.training.exceptions.BookAlreadyOwnedException;
@@ -35,7 +33,6 @@ public class User {
 	private String name;
 
 	@NotNull
-	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate birthDate;
 	@ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.MERGE })

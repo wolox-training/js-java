@@ -20,6 +20,7 @@ public class OpenLibraryService {
 		RestTemplate restTemplate = new RestTemplate();
 		isbn = "0385472579";
 		String openlibraryResourceUrl = "https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data";
+		// toma el primer nivel, y el resto mete en el objeto
 		Map<String, BookDTO> response = restTemplate.exchange(openlibraryResourceUrl, HttpMethod.GET, null,
 		        new ParameterizedTypeReference<Map<String, BookDTO>>() {
 		        }, isbn).getBody();
