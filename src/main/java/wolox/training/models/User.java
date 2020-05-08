@@ -1,18 +1,23 @@
 package wolox.training.models;
 
-import javax.validation.constraints.NotNull;
-import wolox.training.exceptions.BookAlreadyOwnedException;
-import wolox.training.exceptions.BookNotFoundException;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookNotFoundException;
 
 @Entity
 public class User {
@@ -28,8 +33,8 @@ public class User {
 	private String name;
 
 	@NotNull
-	private Date birthDate;
-
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private LocalDate birthDate;
 	@ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
 	private List<Book> books = new ArrayList<Book>();
 
@@ -38,29 +43,26 @@ public class User {
 
 	public List<Book> addBook(Book Book) throws BookAlreadyOwnedException {
 		if (books.contains(Book)) {
-			throw new BookAlreadyOwnedException("Ingreso un libro que el usuario ya tenia asociado");
+			throw new BookAlreadyOwnedException("Ingresó un libro que el usuario ya tenia asociado");
 		} else {
 			this.books.add(Book);
 		}
 		return (List<Book>) Collections.unmodifiableList(books);
 	}
 
-	// borrar por libro entero desde la clase, pero el controller que busque por id
-
 	public void deleteBook(Book Book) throws BookNotFoundException {
 
 		if (!books.contains(Book)) {
-			throw new BookNotFoundException("El libro ingresado no existe enla lista del usuario");
+			throw new BookNotFoundException("El libro ingresado no existe en la lista del usuario");
 		} else {
 			this.books.remove(Book);
 		}
 	}
 
-	public User(@NotNull String userName, @NotNull String name, @NotNull Date birthDate, List<Book> books) {
+	public User(String userName, String name, LocalDate birthDate) {
 		this.userName = userName;
 		this.name = name;
 		this.birthDate = birthDate;
-		this.books = books;
 	}
 
 	public long getId() {
@@ -72,6 +74,7 @@ public class User {
 	}
 
 	public void setUserName(String userName) {
+
 		this.userName = userName;
 	}
 
@@ -83,20 +86,20 @@ public class User {
 		this.name = name;
 	}
 
-	public Date getBirthDay() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDay(@NotNull Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
 	public List<Book> getBooks() {
-		// return books;
 		return (List<Book>) Collections.unmodifiableList(books);
 	}
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+
 }

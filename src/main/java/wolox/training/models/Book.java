@@ -1,15 +1,17 @@
 package wolox.training.models;
 
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Preconditions;
 
 @Entity
 public class Book {
@@ -20,7 +22,7 @@ public class Book {
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "books")
-	private List<User> users;
+	private List<User> users = new ArrayList<User>();
 
 	private String genre;
 
@@ -51,10 +53,8 @@ public class Book {
 	public Book() {
 	}
 
-	public Book(List<User> users, String genre, @NotNull String author, @NotNull String image, @NotNull String title,
-	        @NotNull String subtitle, @NotNull String publisher, @NotNull String year, @NotNull int pages,
-	        @NotNull String isbn) {
-		this.users = users;
+	public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year,
+	        int pages, String isbn) {
 		this.genre = genre;
 		this.author = author;
 		this.image = image;
@@ -83,6 +83,7 @@ public class Book {
 	}
 
 	public void setGenre(String genre) {
+		Preconditions.checkArgument(genre != null && !genre.isEmpty(), "genre no puede estar vacio");
 		this.genre = genre;
 	}
 
@@ -91,6 +92,9 @@ public class Book {
 	}
 
 	public void setAuthor(String author) {
+
+		Preconditions.checkArgument(author != null && !author.isEmpty(), "author no puede estar vacio");
+
 		this.author = author;
 	}
 
@@ -99,6 +103,7 @@ public class Book {
 	}
 
 	public void setImage(String image) {
+		Preconditions.checkArgument(image != null && !image.isEmpty(), "image no puede estar vacio");
 		this.image = image;
 	}
 
@@ -107,6 +112,7 @@ public class Book {
 	}
 
 	public void setTitle(String title) {
+		Preconditions.checkArgument(title != null && !title.isEmpty(), "title no puede estar vacio");
 		this.title = title;
 	}
 
@@ -115,6 +121,7 @@ public class Book {
 	}
 
 	public void setSubtitle(String subtitle) {
+		Preconditions.checkArgument(subtitle != null && !subtitle.isEmpty(), "subtitle no puede estar vacio");
 		this.subtitle = subtitle;
 	}
 
@@ -123,6 +130,7 @@ public class Book {
 	}
 
 	public void setPublisher(String publisher) {
+		Preconditions.checkArgument(publisher != null && !publisher.isEmpty(), "publisher no puede estar vacio");
 		this.publisher = publisher;
 	}
 

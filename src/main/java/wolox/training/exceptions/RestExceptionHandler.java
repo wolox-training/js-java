@@ -13,36 +13,33 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    public RestExceptionHandler() {
-        super();
-    }
+	public RestExceptionHandler() {
+		super();
+	}
 
-    @ExceptionHandler(BookNotFoundException.class)
-    protected ResponseEntity<Object> handleNotFoundBook(Exception ex, WebRequest request) {
-    	String mensaje = ex.getMessage();
-    	if ("".equals(mensaje)) {
-    		mensaje = "Book not found";
-    	}
-    	return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
+	@ExceptionHandler(BookNotFoundException.class)
+	protected ResponseEntity<Object> handleNotFoundBook(Exception ex, WebRequest request) {
+		String mensaje = ex.getMessage();
+		if ("".equals(mensaje)) {
+			mensaje = "Book not found";
+		}
+		return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
 
-    @ExceptionHandler(UserNotFoundException.class)
-    protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
-    	String mensaje = ex.getMessage();
-    	if ("".equals(mensaje)) {
-    		mensaje = "User not found";
-    	}
-    	return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
+	@ExceptionHandler(UserNotFoundException.class)
+	protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
+		String mensaje = ex.getMessage();
+		if ("".equals(mensaje)) {
+			mensaje = "User not found";
+		}
+		return handleExceptionInternal(ex, mensaje, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
 
-    @ExceptionHandler({
-      BookIdMismatchException.class,
-      ConstraintViolationException.class,
-      DataIntegrityViolationException.class
-    })
-    public ResponseEntity<Object> handleBadRequest(Exception ex, WebRequest request) {
-        return handleExceptionInternal(ex, ex
-          .getLocalizedMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
+	@ExceptionHandler({ BookIdMismatchException.class, ConstraintViolationException.class,
+	        DataIntegrityViolationException.class, UserIdMismatchException.class })
+	public ResponseEntity<Object> handleBadRequest(Exception ex, WebRequest request) {
+		return handleExceptionInternal(ex, ex.getLocalizedMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST,
+		        request);
+	}
 
 }
