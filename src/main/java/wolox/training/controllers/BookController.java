@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
-import wolox.training.models.BookDTO;
 import wolox.training.repositories.BookRepository;
 import wolox.training.services.OpenLibraryService;
 
@@ -48,18 +48,22 @@ public class BookController {
 
 //------------------------busca por ISBN en API EXTERNA
 	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(params = "isbn")
-	public BookDTO findByIsbn(@RequestParam(required = true) String isbn) {
-		OpenLibraryService consExtern = new OpenLibraryService();
-		try {
+	public Book findByIsbn(@RequestParam(required = true) String isbn)
+	        throws JsonMappingException, JsonProcessingException {
+		System.out.println("++findByIsbn+++++++++++++++++++++++++++++++");
+		if (bookRepository.findFirstByIsbn(isbn).isPresent()) {
+			System.out.println("++existe+++++++++++++++++++++++++++++++");
+			return bookRepository.findFirstByIsbn(isbn)
+			        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
+		} else {
+			System.out.println("++noexiste+++++++++++++++++++++++++++++++");
+			OpenLibraryService consExtern = new OpenLibraryService();
 			return consExtern.bookInfo(isbn);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
 		}
-		return null;
-//		return bookRepository.findFirstByIsbn(isbn)
-//		        .orElseThrow(() -> new BookNotFoundException("No existe un libro con ese ISBN"));
 	}
+	// ------------------------busca por ISBN en API EXTERNA
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)

@@ -2,7 +2,6 @@ package wolox.training.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -13,13 +12,24 @@ public class BookDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String title;
 	private String subtitle;
-	private String publishers;
+	private List<PublishersDTO> publishers = new ArrayList<PublishersDTO>();
 	private String publishDate;
 	private int numberOfPages;
-	private List<String> authors = new ArrayList<String>();
+	private List<AuthorDTO> authors = new ArrayList<AuthorDTO>();
 
 	public BookDTO() {
 		super();
+	}
+
+	public BookDTO(String title, String subtitle, List<PublishersDTO> publishers, String publishDate, int numberOfPages,
+	        List<AuthorDTO> authors) {
+		super();
+		this.title = title;
+		this.subtitle = subtitle;
+		this.publishers = publishers;
+		this.publishDate = publishDate;
+		this.numberOfPages = numberOfPages;
+		this.authors = authors;
 	}
 
 	public String getTitle() {
@@ -38,11 +48,11 @@ public class BookDTO implements Serializable {
 		this.subtitle = subtitle;
 	}
 
-	public String getPublishers() {
+	public List<PublishersDTO> getPublishers() {
 		return publishers;
 	}
 
-	public void setPublishers(String publishers) {
+	public void setPublishers(List<PublishersDTO> publishers) {
 		this.publishers = publishers;
 	}
 
@@ -62,22 +72,11 @@ public class BookDTO implements Serializable {
 		this.numberOfPages = numberOfPages;
 	}
 
-	public List<String> getAuthors() {
+	public List<AuthorDTO> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(List<String> authors) {
-		this.authors = authors;
-	}
-
-	public BookDTO(String title, String subtitle, String publishers, String publishDate, int numberOfPages,
-	        List<String> authors) {
-		super();
-		this.title = title;
-		this.subtitle = subtitle;
-		this.publishers = publishers;
-		this.publishDate = publishDate;
-		this.numberOfPages = numberOfPages;
+	public void setAuthors(List<AuthorDTO> authors) {
 		this.authors = authors;
 	}
 
