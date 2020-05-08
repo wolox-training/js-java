@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
+import wolox.training.models.BookDTO;
 import wolox.training.repositories.BookRepository;
+import wolox.training.services.OpenLibraryService;
 
 @RestController
 @RequestMapping("/api/books")
@@ -42,9 +46,23 @@ public class BookController {
 		        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
 	}
 
+//------------------------busca por ISBN en API EXTERNA
+	@GetMapping
+	@RequestMapping(params = "isbn")
+	public BookDTO findByIsbn(@RequestParam(required = true) String isbn) {
+		OpenLibraryService consExtern = new OpenLibraryService();
+		try {
+			return consExtern.bookInfo(isbn);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+//		return bookRepository.findFirstByIsbn(isbn)
+//		        .orElseThrow(() -> new BookNotFoundException("No existe un libro con ese ISBN"));
+	}
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-//	public Book createBook(@RequestBody @Valid Book book) {
 	public Book createBook(@RequestBody Book book) {
 		return bookRepository.save(book);
 	}
