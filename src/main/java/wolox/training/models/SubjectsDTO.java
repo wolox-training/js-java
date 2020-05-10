@@ -6,17 +6,17 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class PublishersDTO implements Serializable {
+public class SubjectsDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private String url;
 	private String name;
 
-	public PublishersDTO(String name) {
-		super();
-		this.name = name;
+	public String getUrl() {
+		return url;
 	}
 
-	public PublishersDTO() {
-		super();
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getName() {

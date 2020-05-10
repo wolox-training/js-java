@@ -1,7 +1,10 @@
 package wolox.training.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
@@ -46,24 +46,25 @@ public class BookController {
 		        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
 	}
 
-//------------------------busca por ISBN en API EXTERNA
 	@GetMapping
-	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(params = "isbn")
-	public Book findByIsbn(@RequestParam(required = true) String isbn)
-	        throws JsonMappingException, JsonProcessingException {
-		System.out.println("++findByIsbn+++++++++++++++++++++++++++++++");
-		if (bookRepository.findFirstByIsbn(isbn).isPresent()) {
-			System.out.println("++existe+++++++++++++++++++++++++++++++");
-			return bookRepository.findFirstByIsbn(isbn)
-			        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
+	public ResponseEntity<Book> findByIsbn(@RequestParam(required = true) String isbn) throws Exception {
+		Optional<Book> OBook = bookRepository.findFirstByIsbn(isbn);
+		if (OBook.isPresent()) {
+
+			return new ResponseEntity<Book>(OBook.get(), HttpStatus.OK);
+
 		} else {
-			System.out.println("++noexiste+++++++++++++++++++++++++++++++");
+
 			OpenLibraryService consExtern = new OpenLibraryService();
-			return consExtern.bookInfo(isbn);
+			OBook = consExtern.bookInfo(isbn);
+			if (OBook.isPresent()) {
+				return new ResponseEntity<Book>(bookRepository.save(OBook.get()), HttpStatus.CREATED);
+			} else {
+				throw new BookNotFoundException("No se encontro el libro en la API, ni en la base interna");
+			}
 		}
 	}
-	// ------------------------busca por ISBN en API EXTERNA
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)

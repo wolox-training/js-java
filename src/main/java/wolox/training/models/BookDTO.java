@@ -12,7 +12,9 @@ public class BookDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String title;
 	private String subtitle;
+	private CoverDTO cover = new CoverDTO();
 	private List<PublishersDTO> publishers = new ArrayList<PublishersDTO>();
+	private List<SubjectsDTO> subjects = new ArrayList<SubjectsDTO>();
 	private String publishDate;
 	private int numberOfPages;
 	private List<AuthorDTO> authors = new ArrayList<AuthorDTO>();
@@ -21,12 +23,14 @@ public class BookDTO implements Serializable {
 		super();
 	}
 
-	public BookDTO(String title, String subtitle, List<PublishersDTO> publishers, String publishDate, int numberOfPages,
-	        List<AuthorDTO> authors) {
+	public BookDTO(String title, String subtitle, CoverDTO cover, List<PublishersDTO> publishers,
+	        List<SubjectsDTO> subjects, String publishDate, int numberOfPages, List<AuthorDTO> authors) {
 		super();
 		this.title = title;
 		this.subtitle = subtitle;
+		this.cover = cover;
 		this.publishers = publishers;
+		this.subjects = subjects;
 		this.publishDate = publishDate;
 		this.numberOfPages = numberOfPages;
 		this.authors = authors;
@@ -48,12 +52,28 @@ public class BookDTO implements Serializable {
 		this.subtitle = subtitle;
 	}
 
+	public CoverDTO getCover() {
+		return cover;
+	}
+
+	public void setCover(CoverDTO cover) {
+		this.cover = cover;
+	}
+
 	public List<PublishersDTO> getPublishers() {
 		return publishers;
 	}
 
 	public void setPublishers(List<PublishersDTO> publishers) {
 		this.publishers = publishers;
+	}
+
+	public List<SubjectsDTO> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<SubjectsDTO> subjects) {
+		this.subjects = subjects;
 	}
 
 	public String getPublishDate() {
