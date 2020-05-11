@@ -32,24 +32,23 @@ public class OpenLibraryService {
 
 		BookDTO bookdto = response.get("ISBN:" + isbn);
 
-		Book book = null;
-
-		return Optional.ofNullable(informaBookDesdeDTO(bookdto, isbn, book));
+		return Optional.ofNullable(buildBookFromBookDTO(bookdto, isbn));
 
 	}
 
-	public Book informaBookDesdeDTO(BookDTO bookdto, String isbn, Book book) {
+	public Book buildBookFromBookDTO(BookDTO bookdto, String isbn) {
+
+		Book book = null;
 
 		if (bookdto != null) {
 
 			String sinInformar = "sinInformar";
 
 			book = new Book();
+
 			ArrayList<AuthorDTO> authorLista = (ArrayList<AuthorDTO>) bookdto.getAuthors();
 			ArrayList<PublishersDTO> publishersLista = (ArrayList<PublishersDTO>) bookdto.getPublishers();
 			ArrayList<SubjectsDTO> subjectsLista = (ArrayList<SubjectsDTO>) bookdto.getSubjects();
-
-			book.setIsbn(isbn);
 
 			if (!authorLista.isEmpty()) {
 				book.setAuthor(Optional.ofNullable(authorLista.get(0).getName()).orElse(sinInformar));
@@ -63,9 +62,9 @@ public class OpenLibraryService {
 				book.setGenre(Optional.ofNullable(subjectsLista.get(0).getName()).orElse(sinInformar));
 			}
 
+			book.setIsbn(isbn);
 			book.setImage(Optional.ofNullable(bookdto.getCover().getLarge()).orElse(sinInformar));
 			book.setPages(Optional.ofNullable(bookdto.getNumberOfPages()).orElse(0));
-
 			book.setSubtitle(Optional.ofNullable(bookdto.getSubtitle()).orElse(sinInformar));
 			book.setTitle(Optional.ofNullable(bookdto.getTitle()).orElse(sinInformar));
 			book.setYear(Optional.ofNullable(bookdto.getPublishDate()).orElse(sinInformar));

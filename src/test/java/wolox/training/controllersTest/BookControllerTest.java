@@ -168,8 +168,6 @@ class BookControllerTest {
 
 		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "1", "1", "2021", 361, "0385472579");
 
-		bookRepository.save(book1);
-
 		given(bookRepository.findFirstByIsbn("0385472579")).willReturn(Optional.of(book1));
 
 		Mvc.perform(

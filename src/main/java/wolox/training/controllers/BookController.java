@@ -29,6 +29,9 @@ public class BookController {
 	@Autowired
 	private BookRepository bookRepository;
 
+	@Autowired
+	private OpenLibraryService openLibraryService;
+
 	@GetMapping
 	public Iterable<Book> findAll() {
 		return bookRepository.findAll();
@@ -56,13 +59,10 @@ public class BookController {
 
 		} else {
 
-			OpenLibraryService consExtern = new OpenLibraryService();
-			OBook = consExtern.bookInfo(isbn);
-			if (OBook.isPresent()) {
-				return new ResponseEntity<Book>(bookRepository.save(OBook.get()), HttpStatus.CREATED);
-			} else {
-				throw new BookNotFoundException("No se encontro el libro en la API, ni en la base interna");
-			}
+			Book book = openLibraryService.bookInfo(isbn).orElseThrow(
+			        () -> new BookNotFoundException("No se encontro el libro en la API, ni en la base interna"));
+
+			return new ResponseEntity<Book>(bookRepository.save(book), HttpStatus.CREATED);
 		}
 	}
 
