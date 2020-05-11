@@ -32,7 +32,7 @@ public class BookRepositoryTest {
 	}
 
 	@Test
-	public void givenBooks_WhenSearchByAuthorForPepa2Then_FindBookOfIsbn78945678945962() {
+	public void givenBooks_WhenSearchByAuthorForPepa2_ThenFindBookOfIsbn78945678945962() {
 		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
 		bookRepository.save(book1);
 		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
@@ -47,7 +47,7 @@ public class BookRepositoryTest {
 	}
 
 	@Test
-	public void givenBooks_WhenSearchByAuthorForPiruloThenNotFindBooks() {
+	public void givenBooks_WhenSearchByAuthorForPirulo_ThenNotFindBooks() {
 		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "", "", "2021", 361, "78945678945961");
 		bookRepository.save(book1);
 		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "", "", "2022", 362, "78945678945962");
@@ -58,6 +58,21 @@ public class BookRepositoryTest {
 		bookRepository.save(book4);
 
 		assertThat(!bookRepository.findFirstByAuthorOrderByYearDesc("pirulo").isPresent());
+	}
+
+	@Test
+	public void givenBooks_WhenSearchByPublisherAndGenreAndYear_ThenFindBookOfIsbn78945678945962() {
+		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "1", "1", "2021", 361, "78945678945961");
+		bookRepository.save(book1);
+		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "2", "2", "2022", 362, "78945678945962");
+		bookRepository.save(book2);
+		Book book3 = new Book("pepa2", "pepa2", "Image2", "momo2", "3", "2", "2022", 362, "78945678945962");
+		bookRepository.save(book3);
+		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "4", "4", "2024", 364, "78945678945964");
+		bookRepository.save(book4);
+
+		Iterable<Book> foundedBook = bookRepository.findByPublisherAndGenreAndYear("2", "pepa2", "2022");
+		assertThat(foundedBook).hasSize(2);
 	}
 
 }

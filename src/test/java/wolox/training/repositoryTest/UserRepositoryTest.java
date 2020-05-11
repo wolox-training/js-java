@@ -21,7 +21,7 @@ public class UserRepositoryTest {
 	private UserRepository userRepository;
 
 	@Test
-	public void givenUsers_WhenSearchAllThenFind2Users() {
+	public void givenUsers_WhenSearchAll_ThenFind2Users() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		User user1 = new User("0001", "pepe", LocalDate.parse("1920-10-10", formatter));
@@ -56,5 +56,24 @@ public class UserRepositoryTest {
 		userRepository.save(user2);
 
 		assertThat(!userRepository.findFirstByUserName("A000005").isPresent());
+	}
+
+	@Test
+	public void givenUsers_WhenSearchByBirthDateBetweenAndCadena_ThenFind1Users() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+		User user1 = new User("0001", "pepe", LocalDate.parse("1918-01-10", formatter));
+		userRepository.save(user1);
+		User user2 = new User("0002", "popo", LocalDate.parse("1918-01-15", formatter));
+		userRepository.save(user2);
+		User user3 = new User("0003", "popi", LocalDate.parse("1918-01-20", formatter));
+		userRepository.save(user3);
+
+		Iterable<User> users = userRepository.findByBirthDateBetweenAndCadena(LocalDate.parse("1918-01-11", formatter),
+		        LocalDate.parse("1918-01-17", formatter), "%" + "po" + "%");
+		System.out.println(users.toString());
+
+		assertThat(users).hasSize(1);
+
 	}
 }
