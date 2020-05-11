@@ -11,4 +11,7 @@ import wolox.training.models.Book;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
 	Optional<Book> findFirstByAuthorOrderByYearDesc(@NotBlank String author);
+
+	Optional<Book> findFirstByIsbn(@NotBlank String isbn);
+
 }

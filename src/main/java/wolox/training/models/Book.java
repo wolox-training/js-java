@@ -53,6 +53,13 @@ public class Book {
 	public Book() {
 	}
 
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", users=" + users + ", genre=" + genre + ", author=" + author + ", image=" + image
+		        + ", title=" + title + ", subtitle=" + subtitle + ", publisher=" + publisher + ", year=" + year
+		        + ", pages=" + pages + ", isbn=" + isbn + "]";
+	}
+
 	public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year,
 	        int pages, String isbn) {
 		this.genre = genre;

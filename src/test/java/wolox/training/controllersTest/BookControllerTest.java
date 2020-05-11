@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import wolox.training.controllers.BookController;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
+import wolox.training.services.OpenLibraryService;
 
 @WebMvcTest(BookController.class)
 @TestMethodOrder(OrderAnnotation.class)
@@ -43,6 +44,9 @@ class BookControllerTest {
 
 	@MockBean
 	private BookRepository bookRepository;
+
+	@MockBean
+	private OpenLibraryService openLibraryService;
 
 	@Test
 	@Order(1)
@@ -156,6 +160,36 @@ class BookControllerTest {
 		given(bookRepository.findById(any())).willReturn(Optional.empty());
 		Mvc.perform(put("/api/books/0").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
 		        .content(new ObjectMapper().writeValueAsString(book1))).andDo(print()).andExpect(status().isNotFound());
+	}
+
+	@Test
+	@Order(10)
+	public void givenBooks_WhenGetBookByISBN_thenReturnAJsonArrayFromInternalBase() throws Exception {
+
+		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "1", "1", "2021", 361, "0385472579");
+
+		given(bookRepository.findFirstByIsbn("0385472579")).willReturn(Optional.of(book1));
+
+		Mvc.perform(
+		        MockMvcRequestBuilders.get("/api/books").param("isbn", "0385472579").accept(MediaType.APPLICATION_JSON))
+		        .andDo(print()).andExpect(status().isOk())
+		        .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("0385472579"));
+	}
+
+	@Test
+	@Order(11)
+	public void givenBooks_WhenGetBookByISBN_thenReturnAJsonArrayFromAPIBase() throws Exception {
+
+		Book book1 = new Book("pepa1", "pepa1", "Image1", "momo1", "1", "1", "2021", 361, "0385472579");
+
+		given(bookRepository.findFirstByIsbn("0385472579")).willReturn(Optional.empty());
+		given(openLibraryService.bookInfo("0385472579")).willReturn(Optional.of(book1));
+		given(bookRepository.save(any())).willReturn(book1);
+
+		Mvc.perform(
+		        MockMvcRequestBuilders.get("/api/books").param("isbn", "0385472579").accept(MediaType.APPLICATION_JSON))
+		        .andDo(print()).andExpect(status().isCreated())
+		        .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("0385472579"));
 	}
 
 }
