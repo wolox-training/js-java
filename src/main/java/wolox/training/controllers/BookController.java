@@ -49,6 +49,13 @@ public class BookController {
 		        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
 	}
 
+//	@GetMapping
+//	@RequestMapping(params = "author")
+//	public Book findByAuthor(@RequestParam(required = true) String author) {
+//		return bookRepository.findFirstByAuthorOrderByYearDesc(author)
+//		        .orElseThrow(() -> new BookNotFoundException("No se encontro el ultimo libro del autor "));
+//	}
+
 	@GetMapping
 	@RequestMapping(params = "isbn")
 	public ResponseEntity<Book> findByIsbn(@RequestParam(required = true) String isbn) throws Exception {
