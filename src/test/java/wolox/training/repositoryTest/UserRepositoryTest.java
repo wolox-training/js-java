@@ -69,7 +69,7 @@ public class UserRepositoryTest {
 		User user3 = new User("0003", "popi", LocalDate.parse("1918-01-20", formatter));
 		userRepository.save(user3);
 
-		Iterable<User> users = userRepository.findByBirthDateBetweenAndCadena(LocalDate.parse("1918-01-11", formatter),
+		Iterable<User> users = userRepository.findByBirthDateBetweenAndName(LocalDate.parse("1918-01-11", formatter),
 		        LocalDate.parse("1918-01-17", formatter), "%" + "po" + "%");
 		System.out.println(users.toString());
 
@@ -88,7 +88,7 @@ public class UserRepositoryTest {
 		User user3 = new User("0003", "popi", LocalDate.parse("1918-01-20", formatter));
 		userRepository.save(user3);
 
-		Iterable<User> users = userRepository.findByBirthDateBetweenAndCadena(null,
+		Iterable<User> users = userRepository.findByBirthDateBetweenAndName(null,
 		        LocalDate.parse("1918-01-17", formatter), "po");
 		System.out.println(users.toString());
 
