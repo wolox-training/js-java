@@ -76,4 +76,23 @@ public class UserRepositoryTest {
 		assertThat(users).hasSize(1);
 
 	}
+
+	@Test
+	public void givenUsers_WhenSearchByBirthDateBetweenAndCadenaWith1DateInNull_ThenFind2Users() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+		User user1 = new User("0001", "pepe", LocalDate.parse("1918-01-10", formatter));
+		userRepository.save(user1);
+		User user2 = new User("0002", "popo", LocalDate.parse("1918-01-15", formatter));
+		userRepository.save(user2);
+		User user3 = new User("0003", "popi", LocalDate.parse("1918-01-20", formatter));
+		userRepository.save(user3);
+
+		Iterable<User> users = userRepository.findByBirthDateBetweenAndCadena(null,
+		        LocalDate.parse("1918-01-17", formatter), "po");
+		System.out.println(users.toString());
+
+		assertThat(users).hasSize(2);
+
+	}
 }
