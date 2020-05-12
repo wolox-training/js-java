@@ -66,12 +66,15 @@ public class BookRepositoryTest {
 		bookRepository.save(book1);
 		Book book2 = new Book("pepa2", "pepa2", "Image2", "momo2", "2", "2", "2022", 362, "78945678945962");
 		bookRepository.save(book2);
-		Book book3 = new Book("pepa2", "pepa2", "Image2", "momo2", "3", "2", "2022", 362, "78945678945962");
+		Book book3 = new Book("pepa2", "pepa2", "Image2", "momo2", "3", "3", "2022", 362, "78945678945962");
 		bookRepository.save(book3);
 		Book book4 = new Book("pepa4", "pepa4", "Image4", "momo4", "4", "4", "2024", 364, "78945678945964");
 		bookRepository.save(book4);
 
-		Iterable<Book> foundedBook = bookRepository.findByPublisherAndGenreAndYear("2", "pepa2", "2022");
+//		Iterable<Book> foundedBook = bookRepository.findByPublisherAndGenreAndYear("2", "pepa2", "2022");
+//		assertThat(foundedBook).hasSize(2);
+		Iterable<Book> foundedBook = bookRepository.findByPublisherAndGenreAndYear(null, "pepa2", "2022");
+		System.out.println(foundedBook.toString());
 		assertThat(foundedBook).hasSize(2);
 	}
 

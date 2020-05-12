@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import wolox.training.models.User;
 
@@ -15,7 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findFirstByUserName(@NotBlank String userName);
 
-	@Query("select u from User u where u.birthDate between ?1 and ?2 and u.name like ?3")
-	List<User> findByBirthDateBetweenAndCadena(LocalDate dateFrom, LocalDate dateTo, String cadena);
+	@Query("select u from User u where u.birthDate between :dateFrom and :dateTo and u.name like :cadena")
+	List<User> findByBirthDateBetweenAndCadena(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo,
+	        @Param("cadena") String cadena);
 
 }
