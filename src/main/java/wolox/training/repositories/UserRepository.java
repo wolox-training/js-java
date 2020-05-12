@@ -16,8 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findFirstByUserName(@NotBlank String userName);
 
-	@Query("select u from User u where ((cast(:dateFrom as date) is null or cast(:dateTo as date) = null or"
-	        + " u.birthDate between :dateFrom and :dateTo) and (:name = null or lower(u.name) like lower(concat('%',:name,'%'))))")
-	List<User> findByBirthDateBetweenAndCadena(@Param("dateFrom") LocalDate dateFrom,
-	        @Param("dateTo") LocalDate dateTo, @Param("name") String name);
+	@Query("select u from User u where ((cast(:dateFrom as date) is null or cast(:dateTo as date) is null or"
+	        + " u.birthDate between :dateFrom and :dateTo) and (:name is null or lower(u.name) like lower(concat('%',:name,'%'))))")
+	List<User> findByBirthDateBetweenAndName(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo,
+	        @Param("name") String name);
 }
