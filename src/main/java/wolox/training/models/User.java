@@ -41,6 +41,12 @@ public class User {
 	public User() {
 	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + ", name=" + name + ", birthDate=" + birthDate + ", books="
+		        + books + "]";
+	}
+
 	public List<Book> addBook(Book Book) throws BookAlreadyOwnedException {
 		if (books.contains(Book)) {
 			throw new BookAlreadyOwnedException("Ingresó un libro que el usuario ya tenia asociado");
